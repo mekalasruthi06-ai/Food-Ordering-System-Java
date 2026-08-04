@@ -1,0 +1,117 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+class FoodItem {
+    int id;
+    String name;
+    double price;
+
+    FoodItem(int id, String name, double price) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+    }
+
+    void display() {
+        System.out.println(id + ". " + name + " - ₹" + price);
+    }
+}
+
+public class FoodOrderingSystem {
+
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+
+        ArrayList<FoodItem> menu = new ArrayList<>();
+        ArrayList<FoodItem> order = new ArrayList<>();
+
+        menu.add(new FoodItem(1, "Pizza", 250));
+        menu.add(new FoodItem(2, "Burger", 150));
+        menu.add(new FoodItem(3, "French Fries", 120));
+        menu.add(new FoodItem(4, "Pasta", 200));
+        menu.add(new FoodItem(5, "Soft Drink", 50));
+
+        while (true) {
+
+            System.out.println("\n===== Food Ordering System =====");
+            System.out.println("1. View Menu");
+            System.out.println("2. Order Food");
+            System.out.println("3. View Order");
+            System.out.println("4. Checkout");
+            System.out.println("5. Exit");
+            System.out.print("Enter your choice: ");
+
+            int choice = sc.nextInt();
+
+            switch (choice) {
+
+                case 1:
+                    System.out.println("\n------ Food Menu ------");
+                    for (FoodItem item : menu) {
+                        item.display();
+                    }
+                    break;
+
+                case 2:
+                    System.out.print("Enter Food ID: ");
+                    int id = sc.nextInt();
+
+                    boolean found = false;
+
+                    for (FoodItem item : menu) {
+                        if (item.id == id) {
+                            order.add(item);
+                            System.out.println(item.name + " added to your order.");
+                            found = true;
+                            break;
+                        }
+                    }
+
+                    if (!found) {
+                        System.out.println("Invalid Food ID!");
+                    }
+                    break;
+
+                case 3:
+                    if (order.isEmpty()) {
+                        System.out.println("Your order is empty.");
+                    } else {
+                        double total = 0;
+                        System.out.println("\n------ Order Summary ------");
+                        for (FoodItem item : order) {
+                            item.display();
+                            total += item.price;
+                        }
+                        System.out.println("---------------------------");
+                        System.out.println("Total Bill: ₹" + total);
+                    }
+                    break;
+
+                case 4:
+                    if (order.isEmpty()) {
+                        System.out.println("No items ordered.");
+                    } else {
+                        double total = 0;
+                        for (FoodItem item : order) {
+                            total += item.price;
+                        }
+
+                        System.out.println("\n===== Payment Successful =====");
+                        System.out.println("Total Amount Paid: ₹" + total);
+                        System.out.println("Thank you for your order!");
+                        order.clear();
+                    }
+                    break;
+
+                case 5:
+                    System.out.println("Thank you for using Food Ordering System!");
+                    sc.close();
+                    System.exit(0);
+
+                default:
+                    System.out.println("Invalid Choice!");
+            }
+        }
+    }
+}
